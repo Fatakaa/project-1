@@ -2,36 +2,37 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PengajuanResource\Pages;
-use App\Filament\Resources\PengajuanResource\RelationManagers;
-use App\Models\Pengajuan;
+use App\Filament\Resources\DataMahasiswaResource\Pages;
+use App\Filament\Resources\DataMahasiswaResource\RelationManagers;
+use App\Models\DataMahasiswa;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use PhpParser\Node\Stmt\Label;
-use Symfony\Contracts\Service\Attribute\Required;
 
-class PengajuanResource extends Resource
+class DataMahasiswaResource extends Resource
 {
-    protected static ?string $model = Pengajuan::class;
+    protected static ?string $model = DataMahasiswa::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Pengajuan';
+    protected static ?string $navigationIcon = 'phosphor-student';
 
-    protected static ?string $navigationGroup = 'Surat Elektronik';
-    
-    public static ?string $label = 'Pengajuan';
+    protected static ?string $navigationLabel = 'Data Mahasiswa';
+
+    protected static ?string $navigationGroup = 'Master Data';
+
+    public static ?string $label = 'Data Mahasiswa';
+
     public static function form(Form $form): Form
     {
         return $form
+
             ->schema([
                 TextInput::make('nim')
                     ->label('NIM')
@@ -45,13 +46,16 @@ class PengajuanResource extends Resource
                 TextInput::make('prodi')
                     ->label('Program Studi')
                     ->Required(),
-                Select::make('status')
+                Select::make('konsentrasi_id')
+                    ->relationship('konsentrasi', 'nama_konsentrasi')
+                    ->label('Konsentrasi')
+                    ->Required(),
+                Select::make('keaktifan')
                     ->options([
-                        'suketBaik' => 'Surat Keterangan Berkelakuan Baik',
-                        'suketNonBeasiswa' => 'Surat Tidak Menerima Beasiswa',
-                        'suketAktif' => 'Surat Keterangan Aktif',
+                        'Aktif' => 'Aktif',
+                        'Tidak Aktif' => 'Tidak Aktif'
                     ])
-                    ->label('Nama Surat')
+                    ->label('Status Aktif')
                     ->Required()
             ]);
     }
@@ -66,14 +70,19 @@ class PengajuanResource extends Resource
                 TextColumn::make('nama_mahasiswa'),
                 TextColumn::make('fakultas'),
                 TextColumn::make('prodi'),
-                TextColumn::make('nama_surat')
+                TextColumn::make('konsentrasi.nama_konsentrasi'),
+                TextColumn::make('keaktifan')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Aktif' => 'success',
+                        'Tidak Aktif' => 'danger',
+                    })
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -92,9 +101,9 @@ class PengajuanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPengajuans::route('/'),
-            'create' => Pages\CreatePengajuan::route('/create'),
-            'edit' => Pages\EditPengajuan::route('/{record}/edit'),
+            'index' => Pages\ListDataMahasiswas::route('/'),
+            'create' => Pages\CreateDataMahasiswa::route('/create'),
+            'edit' => Pages\EditDataMahasiswa::route('/{record}/edit'),
         ];
     }
 }
