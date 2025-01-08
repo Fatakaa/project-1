@@ -40,11 +40,12 @@ class DataMahasiswaResource extends Resource
                 TextInput::make('nama_mahasiswa')
                     ->label('Nama Mahasiswa')
                     ->Required(),
-                TextInput::make('fakultas')
-                    ->label('Fakultas')
-                    ->Required(),
-                TextInput::make('prodi')
-                    ->label('Program Studi')
+                // TextInput::make('fakultas')
+                //     ->label('Fakultas')
+                //     ->Required(),
+                Select::make('jurusan_id')
+                    ->relationship('jurusan', 'nama_jurusan')
+                    ->label('Jurusan')
                     ->Required(),
                 Select::make('konsentrasi_id')
                     ->relationship('konsentrasi', 'nama_konsentrasi')
@@ -68,8 +69,8 @@ class DataMahasiswaResource extends Resource
                     ->label('NIM')
                     ->searchable(),
                 TextColumn::make('nama_mahasiswa'),
-                TextColumn::make('fakultas'),
-                TextColumn::make('prodi'),
+                TextColumn::make('jurusan.fakultas.nama_fakultas'),
+                TextColumn::make('jurusan.nama_jurusan'),
                 TextColumn::make('konsentrasi.nama_konsentrasi'),
                 TextColumn::make('keaktifan')
                     ->badge()

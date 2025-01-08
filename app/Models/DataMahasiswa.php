@@ -16,4 +16,8 @@ class DataMahasiswa extends Model
     {
         return $this->belongsTo(DataKonsentrasi::class, 'konsentrasi_id');
     }
+    public function jurusan()
+    {
+        return $this->belongsTo(DataJurusan::class, 'jurusan_id');
+    }
 }

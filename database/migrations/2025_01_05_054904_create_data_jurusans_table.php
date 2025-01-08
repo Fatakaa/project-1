@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_mahasiswa', function (Blueprint $table) {
+        Schema::create('m_jurusan', function (Blueprint $table) {
             $table->id();
-            $table->string('nim');
-            $table->string('nama_mahasiswa');
+            $table->string('nama_jurusan');
+            $table->string('nama_jurusan_english');
+            $table->string('nama_program_studi');
             $table->integer('fakultas');
-            $table->integer('prodi');
-            $table->integer('konsentrasi');
-            $table->string('keaktifan');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_mahasiswa_tabel');
+        Schema::dropIfExists('data_jurusans');
     }
 };

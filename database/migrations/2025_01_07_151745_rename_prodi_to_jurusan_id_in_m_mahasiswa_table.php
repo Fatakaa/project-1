@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('m_mahasiswa', function (Blueprint $table) {
-        // Mengubah nama kolom 'konsentrasi' menjadi 'konsentrasi_id'
-        $table->renameColumn('konsentrasi', 'konsentrasi_id');
-
-        // Mengubah tipe data kolom 'konsentrasi_id' menjadi 'bigint unsigned'
-        $table->bigInteger('konsentrasi_id')->unsigned()->change();
-
-        // Menambahkan foreign key constraint
-        $table->foreign('konsentrasi_id')->references('id')->on('m_konsentrasi')->onDelete('cascade');
-    });
+            // Mengubah nama kolom 'konsentrasi' menjadi 'konsentrasi_id'
+            $table->renameColumn('prodi', 'jurusan_id');
+    
+            // Mengubah tipe data kolom 'konsentrasi_id' menjadi 'bigint unsigned'
+            $table->bigInteger('jurusan_id')->unsigned()->change();
+    
+            // Menambahkan foreign key constraint
+            $table->foreign('jurusan_id')->references('id')->on('m_jurusan')->onDelete('cascade');
+        });
     }
 
     /**
