@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "afatmustafa/blade-hugeicons": "^0.0.4",
+        "bezhansalleh/filament-shield": "^3.3",
         "codeat3/blade-phosphor-icons": "^2.2",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.31",
